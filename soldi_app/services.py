@@ -3,7 +3,8 @@ from datetime import date
 from django.db.models import Sum
 from .models import (
     Expense,
-    BudgetCategory
+    BudgetCategory,
+    UserProfile
 )
 
 
@@ -79,7 +80,11 @@ def get_month_total(user, year, month):
 # category summary
 def get_category_summary(user, year, month):
 
-    categories = ExpenseCategory.objects.all()
+    categories = Expense.objects.filter(
+        user=user,
+        expense_date__year=year,
+        expense_date__month=month
+    ).values_list('category', flat=True).distinct()
 
     summary = []
 
@@ -107,16 +112,23 @@ def get_category_summary(user, year, month):
 
         )
 
+        # budget = (
+
+        #     BudgetCategory.objects.filter(
+
+        #         user=user,
+
+        #         category=category
+
+        #     ).first()
+
+        # )
         budget = (
-
-            BudgetCategory.objects.filter(
-
-                user=user,
-
-                category=category
+            UserProfile.objects.filter(
+                
+                user=user
 
             ).first()
-
         )
 
         monthly_limit = budget.monthly_limit if budget else None
@@ -138,7 +150,8 @@ def get_category_summary(user, year, month):
 
         summary.append({
 
-            "category": category.name,
+            # "category": category.name,
+            "category": category,
 
             "spent": spent,
 
