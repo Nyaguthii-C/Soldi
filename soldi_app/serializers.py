@@ -64,7 +64,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "currency",
-            "monthly_target",
+            "monthly_limit",
             "created_at",
             "updated_at",
         )
@@ -83,7 +83,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         validators=[validate_password]
     )
 
-    monthly_target = serializers.DecimalField(
+    monthly_limit = serializers.DecimalField(
         max_digits=10,
         decimal_places=2
     )
@@ -106,20 +106,20 @@ class RegisterSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "password",
-            "monthly_target",
+            "monthly_limit",
             "currency",
         )
 
     def create(self, validated_data):
 
-        monthly_target = validated_data.pop("monthly_target")
+        monthly_limit = validated_data.pop("monthly_limit")
         currency = validated_data.pop("currency")
 
         user = User.objects.create_user(**validated_data)
 
         UserProfile.objects.create(
             user=user,
-            monthly_target=monthly_target,
+            monthly_limit=monthly_limit,
             currency=currency
         )
 

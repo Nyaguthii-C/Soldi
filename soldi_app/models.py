@@ -12,7 +12,7 @@ class UserProfile(models.Model):
         on_delete=models.CASCADE,
         related_name="profile"
     )
-    monthly_target = models.DecimalField(
+    monthly_limit = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         default=0

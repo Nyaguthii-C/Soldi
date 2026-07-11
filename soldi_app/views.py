@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from .models import UserProfile, Expense, ExpenseCategory
+from .models import UserProfile, Expense
 from django.shortcuts import get_object_or_404
 from datetime import date
 from .parser import parse_expense
@@ -28,7 +28,7 @@ The request should include:
 - username
 - email
 - password
-- monthly_target
+- monthly_limit
 - currency
 
 Returns the newly created user details.
@@ -104,7 +104,7 @@ Update the authenticated user's profile.
 
 Only the following fields are editable:
 
-- monthly_target
+- monthly_limit
 - currency
 """,
     request_body=UserProfileSerializer,
@@ -161,7 +161,7 @@ def get_budget(request):
 
     return Response({
 
-        "monthly_target": profile.monthly_target,
+        "monthly_limit": profile.monthly_limit,
 
         "currency": profile.currency
 
@@ -178,7 +178,7 @@ Updates the user's monthly budget target and/or currency.
     request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT,
         properties={
-            "monthly_target": openapi.Schema(
+            "monthly_limit": openapi.Schema(
                 type=openapi.TYPE_NUMBER
             ),
             "currency": openapi.Schema(
@@ -216,6 +216,76 @@ def update_budget(request):
 
 
 # EXPENSES
+
+
+@swagger_auto_schema(
+    method="post",
+    operation_summary="Log Expenses",
+    operation_description="""
+Logs one or more expenses from a natural language prompt.
+
+Examples:
+
+Bread 120
+
+Bread 120
+Milk 80
+Bus fare 100
+
+Netflix 700
+""",
+    request_body=ExpensePromptSerializer,
+    responses={
+        201: ExpenseSerializer(many=True),
+        400: "Validation Error"
+    }
+)
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def log_expense(request):
+
+    serializer = ExpensePromptSerializer(
+        data=request.data
+    )
+
+    if not serializer.is_valid():
+
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    prompt = serializer.validated_data["prompt"]
+
+    parsed_expenses = parse_expense(prompt)
+
+    if not parsed_expenses:
+
+        return Response(
+            {
+                "message": "No valid expenses were detected."
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    expenses = create_expenses(
+        request.user,
+        parsed_expenses
+    )
+
+    response_serializer = ExpenseSerializer(
+        expenses,
+        many=True
+    )
+
+    return Response(
+        {
+            "message": f"{len(expenses)} expense(s) logged successfully.",
+            "expenses": response_serializer.data
+        },
+        status=status.HTTP_201_CREATED
+    )
+
 
 @swagger_auto_schema(
     method="get",
@@ -413,76 +483,6 @@ def todays_expenses(request):
     )
 
     return Response(serializer.data)
-
-
-
-@swagger_auto_schema(
-    method="post",
-    operation_summary="Log Expenses",
-    operation_description="""
-Logs one or more expenses from a natural language prompt.
-
-Examples:
-
-Bread 120
-
-Bread 120
-Milk 80
-Bus fare 100
-
-Netflix 700
-""",
-    request_body=ExpensePromptSerializer,
-    responses={
-        201: ExpenseSerializer(many=True),
-        400: "Validation Error"
-    }
-)
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
-def log_expense(request):
-
-    serializer = ExpensePromptSerializer(
-        data=request.data
-    )
-
-    if not serializer.is_valid():
-
-        return Response(
-            serializer.errors,
-            status=status.HTTP_400_BAD_REQUEST
-        )
-
-    prompt = serializer.validated_data["prompt"]
-
-    parsed_expenses = parse_expense(prompt)
-
-    if not parsed_expenses:
-
-        return Response(
-            {
-                "message": "No valid expenses were detected."
-            },
-            status=status.HTTP_400_BAD_REQUEST
-        )
-
-    expenses = create_expenses(
-        request.user,
-        parsed_expenses
-    )
-
-    response_serializer = ExpenseSerializer(
-        expenses,
-        many=True
-    )
-
-    return Response(
-        {
-            "message": f"{len(expenses)} expense(s) logged successfully.",
-            "expenses": response_serializer.data
-        },
-        status=status.HTTP_201_CREATED
-    )
 
 
 # SUMMARY

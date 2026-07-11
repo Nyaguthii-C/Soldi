@@ -177,7 +177,7 @@ def get_monthly_summary(user, year, month):
         month
     )
 
-    remaining = profile.monthly_target - total_spent
+    remaining = profile.monthly_limit - total_spent
 
     return {
 
@@ -187,7 +187,7 @@ def get_monthly_summary(user, year, month):
 
         "currency": profile.currency,
 
-        "monthly_budget": profile.monthly_target,
+        "monthly_budget": profile.monthly_limit,
 
         "total_spent": total_spent,
 
