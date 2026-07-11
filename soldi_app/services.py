@@ -3,7 +3,6 @@ from datetime import date
 from django.db.models import Sum
 from .models import (
     Expense,
-    ExpenseCategory,
     BudgetCategory
 )
 
@@ -11,19 +10,19 @@ from .models import (
 # create one expense
 def create_expense(user, expense_data):
 
-    category = None
+    # category = None
 
-    if expense_data["category"]:
+    # if expense_data["category"]:
 
-        category = ExpenseCategory.objects.filter(
-            name=expense_data["category"]
-        ).first()
+        # category = ExpenseCategory.objects.filter(
+        #     name=expense_data["category"]
+        # ).first()
 
     return Expense.objects.create(
 
         user=user,
 
-        category=category,
+        category=expense_data["category"],
 
         description=expense_data["description"],
 
