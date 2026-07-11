@@ -196,8 +196,8 @@ def update_budget(request):
 
     profile = request.user.profile
 
-    if "monthly_target" in request.data:
-        profile.monthly_target = request.data["monthly_target"]
+    if "monthly_limit" in request.data:
+        profile.monthly_limit = request.data["monthly_limit"]
 
     if "currency" in request.data:
         profile.currency = request.data["currency"]
@@ -208,7 +208,7 @@ def update_budget(request):
 
         "message": "Budget updated successfully.",
 
-        "monthly_target": profile.monthly_target,
+        "monthly_limit": profile.monthly_limit,
 
         "currency": profile.currency
 
