@@ -1,19 +1,31 @@
 from rest_framework import serializers
-from .models import BudgetCategory, UserProfile, ExpenseCategory, Expense
+from .models import BudgetCategory, UserProfile, Expense
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 User = get_user_model()
 from django.contrib.auth.password_validation import validate_password
 
 
-class ExpenseSerializer(serializers.ModelSerializer):
+# class ExpenseSerializer(serializers.ModelSerializer):
 
-    category = serializers.SlugRelatedField(
-        queryset=ExpenseCategory.objects.all(),
-        slug_field="name",
-        required=False,
-        allow_null=True
-    )
+#     category = serializers.SlugRelatedField(
+#         queryset=ExpenseCategory.objects.all(),
+#         slug_field="name",
+#         required=False,
+#         allow_null=True
+#     )
+
+#     class Meta:
+#         model = Expense
+#         fields = "__all__"
+#         read_only_fields = (
+#             "user",
+#             "created_at",
+#             "updated_at",
+#         )
+
+
+class ExpenseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Expense
