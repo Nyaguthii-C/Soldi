@@ -7,7 +7,7 @@ CATEGORY_KEYWORDS = {
         "bread","milk","rice","beans","sugar","meat",
         "tea","coffee","egg","eggs","ugali","flour",
         "maize","vegetables","fruit","banana","apple",
-        "juice","water","soda","snacks","lunch","breakfast"
+        "juice","water","soda","snacks","lunch","breakfast", "yoghurt"
     ],
 
     "Transport":[
@@ -70,7 +70,7 @@ def detect_category(description):
             scores[category] = score
 
     if not scores:
-        return None
+        return "Other"
 
     return max(scores, key=scores.get)
 
@@ -88,13 +88,21 @@ def parse_single_expense(text):
         text
     ).strip(" ,-")
 
+    category = detect_category(description)
+
+    if category is None:
+        raise ValueError(
+            f"Could not determine category for '{description}'."
+        )
+
+
     return {
 
         "description": description,
 
         "amount": amount,
 
-        "category": detect_category(description)
+        "category": category
     }
 
 
