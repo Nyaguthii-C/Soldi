@@ -340,7 +340,7 @@ def list_expenses(request):
 
     if category:
         expenses = expenses.filter(
-            category__name=category
+            category__iexact=category
         )
 
     serializer = ExpenseSerializer(expenses, many=True)
