@@ -16,8 +16,8 @@ CATEGORY_KEYWORDS = {
     ],
 
     "Entertainment":[
-        "movie","cinema","netflix","game",
-        "show","concert","spotify"
+        "movie night","cinema","netflix","game",
+        "show","concert","spotify", "film screening"
     ],
 
     "Internet":[
