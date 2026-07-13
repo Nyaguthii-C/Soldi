@@ -12,7 +12,7 @@ CATEGORY_KEYWORDS = {
 
     "Transport":[
         "fare","bus","matatu","uber","bolt",
-        "fuel","taxi","parking","train","flight"
+        "fuel","taxi","parking","train","flight", "trip"
     ],
 
     "Entertainment":[
@@ -46,7 +46,10 @@ CATEGORY_KEYWORDS = {
 
     "Savings":[
         "saving","savings","deposit","investment"
-    ]
+    ],
+    "Toiletries":[
+        "soap","shampoo","toothpaste","toothbrush","deodorant", "roll-on", "tissue", "tissues"
+    ]   
 
 }
 
