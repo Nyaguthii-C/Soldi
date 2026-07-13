@@ -29,7 +29,7 @@ CATEGORY_KEYWORDS = {
     ],
 
     "Health":[
-        "hospital","medicine","chemist","clinic","doctor"
+        "hospital","medicine","chemist","clinic","doctor", "painkillers"
     ],
 
     "Shopping":[
