@@ -7,12 +7,12 @@ CATEGORY_KEYWORDS = {
         "bread","milk","rice","beans","sugar","meat",
         "tea","coffee","egg","eggs","ugali","flour",
         "maize","vegetables","fruit","banana","apple",
-        "juice","water","soda","snacks","lunch","breakfast", "yoghurt"
+        "juice","water","soda","snacks","lunch","breakfast", "yoghurt", "groceries"
     ],
 
     "Transport":[
         "fare","bus","matatu","uber","bolt",
-        "fuel","taxi","parking","train","flight", "trip"
+        "fuel","taxi","parking","train","flight", "trip", "outing"
     ],
 
     "Entertainment":[
