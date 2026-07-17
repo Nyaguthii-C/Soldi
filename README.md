@@ -27,7 +27,7 @@ BudgetCategory (per-user monthly allocations by category)
 - **Docs**: Swagger / drf-yasg  
 - **Testing**: Pytest, pytest-django
 - **DevOps**: Docker, Docker Compose  
-- **Frontend**: Vite, TypeScript, React, shadcn-ui,Tailwind CSS ( initially scaffolded using lovable.dev, with custom integration and enhancements.)  
+- [**Frontend**](https://github.com/Nyaguthii-C/soldi-frontend.git): JavaScript, Css, HTML, Vite, React  
 
 
 ## Setup Instructions
