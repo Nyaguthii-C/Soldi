@@ -129,7 +129,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class BudgetCategorySerializer(serializers.ModelSerializer):
 
     category = serializers.CharField(
-        source="category.name",
+        source="category",
         read_only=True
     )
 

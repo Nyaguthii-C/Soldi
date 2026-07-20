@@ -114,4 +114,4 @@ class BudgetCategory(models.Model):
         unique_together = ("user", "category")
 
     def __str__(self):
-        return f"{self.user.username} - {self.category.name}"    
+        return f"{self.user.username} - {self.category}"    
