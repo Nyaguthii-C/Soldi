@@ -11,7 +11,7 @@ from datetime import date
 from .parser import parse_expense
 from .services import create_expenses, get_category_summary, get_monthly_summary
 from .serializers import (
-    ExpensePromptSerializer,ExpenseSerializer, UserProfileSerializer,
+    ExpensePromptSerializer,ExpenseSerializer, ExpenseUpdateSerializer, UserProfileSerializer,
     ExpenseSerializer, RegisterSerializer
 )
 
@@ -376,9 +376,9 @@ def get_expense(request, pk):
 @swagger_auto_schema(
     method="patch",
     operation_summary="Update Expense",
-    request_body=ExpenseSerializer,
+    request_body=ExpenseUpdateSerializer,
     responses={
-        200: ExpenseSerializer,
+        200: ExpenseUpdateSerializer,
         400: "Validation Error"
     }
 )
@@ -396,7 +396,7 @@ def update_expense(request, pk):
 
     )
 
-    serializer = ExpenseSerializer(
+    serializer = ExpenseUpdateSerializer(
 
         expense,
 
@@ -410,15 +410,9 @@ def update_expense(request, pk):
 
         serializer.save()
 
-        return Response(serializer.data)
+        return Response(ExpenseSerializer(expense).data)
 
-    return Response(
-
-        serializer.errors,
-
-        status=status.HTTP_400_BAD_REQUEST
-
-    )
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @swagger_auto_schema(

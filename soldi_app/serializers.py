@@ -44,6 +44,16 @@ class ExpensePromptSerializer(serializers.Serializer):
     )
 
 
+class ExpenseUpdateSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Expense
+        fields = (
+            "description",
+            "amount",
+        )
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
 
     username = serializers.CharField(
@@ -128,10 +138,10 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class BudgetCategorySerializer(serializers.ModelSerializer):
 
-    category = serializers.CharField(
-        source="category",
-        read_only=True
-    )
+    # category = serializers.CharField(
+    #     source="category",
+    #     read_only=True
+    # )
 
     class Meta:
         model = BudgetCategory
